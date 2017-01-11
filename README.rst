@@ -1,29 +1,3 @@
-Metadata-Version: 2.0
-Name: django-custom-user
-Version: 0.6
-Summary: Custom user model for Django >= 1.5 with the same behaviour as Django's default User but with email instead of username.
-Home-page: https://github.com/jcugat/django-custom-user
-Author: Josep Cugat
-Author-email: jcugat@gmail.com
-License: BSD License
-Keywords: django custom user auth model email without username
-Platform: UNKNOWN
-Classifier: Development Status :: 4 - Beta
-Classifier: Environment :: Web Environment
-Classifier: Framework :: Django
-Classifier: Intended Audience :: Developers
-Classifier: License :: OSI Approved :: BSD License
-Classifier: Operating System :: OS Independent
-Classifier: Programming Language :: Python
-Classifier: Programming Language :: Python :: 2
-Classifier: Programming Language :: Python :: 2.6
-Classifier: Programming Language :: Python :: 2.7
-Classifier: Programming Language :: Python :: 3
-Classifier: Programming Language :: Python :: 3.3
-Classifier: Topic :: Internet :: WWW/HTTP
-Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
-Requires-Dist: Django (>=1.5)
-
 Django Custom User
 ==================
 
@@ -33,8 +7,8 @@ Django Custom User
 .. image:: https://img.shields.io/travis/jcugat/django-custom-user/master.svg
     :target: https://travis-ci.org/jcugat/django-custom-user
 
-.. image:: https://img.shields.io/coveralls/jcugat/django-custom-user/master.svg
-    :target: https://coveralls.io/r/jcugat/django-custom-user?branch=master
+.. image:: https://img.shields.io/codecov/c/github/jcugat/django-custom-user/master.svg
+    :target: https://codecov.io/gh/jcugat/django-custom-user
 
 .. image:: https://img.shields.io/pypi/dm/django-custom-user.svg
     :target: https://pypi.python.org/pypi/django-custom-user
@@ -151,6 +125,11 @@ If you use the AdminSite, add the following code to your ``my_app/admin.py`` fil
 Changelog
 ---------
 
+Version 0.7 (In development)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Fixed change password link in EmailUserChangeForm (thanks to Igor Gai and rubengrill)
+
 Version 0.6 (2016-04-03)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -219,6 +198,4 @@ Version 0.1 (2013-04-09)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 - Initial release.
-
-
 

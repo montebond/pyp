@@ -1,4 +1,5 @@
 """EmailUser forms."""
+import django
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
@@ -18,39 +19,15 @@ class EmailUserCreationForm(forms.ModelForm):
         'password_mismatch': _("The two password fields didn't match."),
     }
 
-    email = forms.EmailField(
-        widget=forms.TextInput(
-            attrs={
-            'id':'inputEmail',
-            'class':'form-control',
-            'placeholder':'Email Address'
-            }
-        )
-    )
-
     password1 = forms.CharField(
         label=_("Password"),
-        widget=forms.PasswordInput(
-            attrs={
-            'id':'inputPassword',
-            'class':'form-control',
-            'placeholder':'Password'
-            }
-        )
-    )
-
+        widget=forms.PasswordInput)
     password2 = forms.CharField(
         label=_("Password confirmation"),
-        widget=forms.PasswordInput(
-            attrs={
-            'id':'inputPassword',
-            'class':'form-control',
-            'placeholder':'Re-Enter Password'
-            }
-        )
-    )
+        widget=forms.PasswordInput,
+        help_text=_("Enter the same password as above, for verification."))
 
-    class Meta:
+    class Meta:  # noqa: D101
         model = get_user_model()
         fields = ('email',)
 
@@ -113,12 +90,16 @@ class EmailUserChangeForm(forms.ModelForm):
 
     """
 
+    # In Django 1.9 the url for changing the password was changed (#15779)
+    # A url name was also added in 1.9 (same issue #15779),
+    # so reversing the url is not possible for Django < 1.9
     password = ReadOnlyPasswordHashField(label=_("Password"), help_text=_(
         "Raw passwords are not stored, so there is no way to see "
         "this user's password, but you can change the password "
-        "using <a href=\"password/\">this form</a>."))
+        "using <a href=\"%(url)s\">this form</a>."
+    ) % {'url': 'password/' if django.VERSION < (1, 9) else '../password/'})
 
-    class Meta:
+    class Meta:  # noqa: D101
         model = get_user_model()
         exclude = ()
 
