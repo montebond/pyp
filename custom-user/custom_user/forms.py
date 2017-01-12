@@ -23,7 +23,7 @@ class EmailUserCreationForm(forms.ModelForm):
             attrs={
             'id':'inputEmail',
             'class':'form-control',
-            'placeholder':'Email Address'
+            'placeholder':'Email Address',
             }
         )
     )
