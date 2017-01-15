@@ -1,9 +1,41 @@
-"""EmailUser forms."""
+import django
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.utils.translation import ugettext_lazy as _
 
+class LoginUserForm(forms.ModelForm):
+
+    """A form for creating new users.
+
+    Includes all the required fields, plus a repeated password.
+
+    """
+
+    email = forms.EmailField(
+        widget=forms.TextInput(
+            attrs={
+            'id':'inputEmail',
+            'class':'form-control',
+            'placeholder':'Email Address',
+            }
+        )
+    )
+
+    password = forms.CharField(
+        label=_("Password"),
+        widget=forms.PasswordInput(
+            attrs={
+            'id':'inputEmail',
+            'class':'form-control',
+            'placeholder':'Password',
+            }
+        )
+    )
+
+    class Meta:  # noqa: D101
+        model = get_user_model()
+        fields = ('email',)
 
 class EmailUserCreationForm(forms.ModelForm):
 
@@ -32,37 +64,28 @@ class EmailUserCreationForm(forms.ModelForm):
         label=_("Password"),
         widget=forms.PasswordInput(
             attrs={
-            'id':'inputPassword',
+            'id':'inputEmail',
             'class':'form-control',
-            'placeholder':'Password'
+            'placeholder':'Password',
             }
         )
     )
-
     password2 = forms.CharField(
         label=_("Password confirmation"),
         widget=forms.PasswordInput(
             attrs={
-            'id':'inputPassword',
+            'id':'inputEmail',
             'class':'form-control',
-            'placeholder':'Re-Enter Password'
+            'placeholder':'Re-Enter Password',
             }
         )
     )
 
-    class Meta:
+    class Meta:  # noqa: D101
         model = get_user_model()
         fields = ('email',)
 
     def clean_email(self):
-        """Clean form email.
-
-        :return str email: cleaned email
-        :raise forms.ValidationError: Email is duplicated
-
-        """
-        # Since EmailUser.email is unique, this check is redundant,
-        # but it sets a nicer error message than the ORM. See #13147.
         email = self.cleaned_data["email"]
         try:
             get_user_model()._default_manager.get(email=email)
@@ -103,6 +126,32 @@ class EmailUserCreationForm(forms.ModelForm):
             user.save()
         return user
 
+class ResetPasswordForm(forms.ModelForm):
+
+    """A form for creating new users.
+
+    Includes all the required fields, plus a repeated password.
+
+    """
+
+    error_messages = {
+        'no_email': _("No user with that email exists"),
+        'wrong_password': _("Incorrect password"),
+    }
+
+    email = forms.EmailField(
+        widget=forms.TextInput(
+            attrs={
+            'id':'inputEmail',
+            'class':'form-control',
+            'placeholder':'Email Address',
+            }
+        )
+    )
+
+    class Meta:  # noqa: D101
+        model = get_user_model()
+        fields = ('email',)
 
 class EmailUserChangeForm(forms.ModelForm):
 
@@ -113,12 +162,16 @@ class EmailUserChangeForm(forms.ModelForm):
 
     """
 
+    # In Django 1.9 the url for changing the password was changed (#15779)
+    # A url name was also added in 1.9 (same issue #15779),
+    # so reversing the url is not possible for Django < 1.9
     password = ReadOnlyPasswordHashField(label=_("Password"), help_text=_(
         "Raw passwords are not stored, so there is no way to see "
         "this user's password, but you can change the password "
-        "using <a href=\"password/\">this form</a>."))
+        "using <a href=\"%(url)s\">this form</a>."
+    ) % {'url': 'password/' if django.VERSION < (1, 9) else '../password/'})
 
-    class Meta:
+    class Meta:  # noqa: D101
         model = get_user_model()
         exclude = ()
 
