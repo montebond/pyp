@@ -15,8 +15,8 @@ class LoginUserForm(forms.ModelForm):
     email = forms.EmailField(
         widget=forms.TextInput(
             attrs={
-            'id':'inputEmail',
-            'class':'form-control',
+            'id':'inputWelcome',
+            'class':'form-control email1',
             'placeholder':'Email Address',
             }
         )
@@ -26,8 +26,8 @@ class LoginUserForm(forms.ModelForm):
         label=_("Password"),
         widget=forms.PasswordInput(
             attrs={
-            'id':'inputEmail',
-            'class':'form-control',
+            'id':'inputWelcome',
+            'class':'form-control password1',
             'placeholder':'Password',
             }
         )
@@ -53,8 +53,8 @@ class EmailUserCreationForm(forms.ModelForm):
     email = forms.EmailField(
         widget=forms.TextInput(
             attrs={
-            'id':'inputEmail',
-            'class':'form-control',
+            'id':'inputWelcome',
+            'class':'form-control email2',
             'placeholder':'Email Address',
             }
         )
@@ -64,8 +64,8 @@ class EmailUserCreationForm(forms.ModelForm):
         label=_("Password"),
         widget=forms.PasswordInput(
             attrs={
-            'id':'inputEmail',
-            'class':'form-control',
+            'id':'inputWelcome',
+            'class':'form-control password2',
             'placeholder':'Password',
             }
         )
@@ -74,8 +74,8 @@ class EmailUserCreationForm(forms.ModelForm):
         label=_("Password confirmation"),
         widget=forms.PasswordInput(
             attrs={
-            'id':'inputEmail',
-            'class':'form-control',
+            'id':'inputWelcome',
+            'class':'form-control password3',
             'placeholder':'Re-Enter Password',
             }
         )
@@ -142,8 +142,8 @@ class ResetPasswordForm(forms.ModelForm):
     email = forms.EmailField(
         widget=forms.TextInput(
             attrs={
-            'id':'inputEmail',
-            'class':'form-control',
+            'id':'inputWelcome',
+            'class':'form-control email2',
             'placeholder':'Email Address',
             }
         )
