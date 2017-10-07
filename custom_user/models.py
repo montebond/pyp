@@ -79,6 +79,10 @@ class AbstractEmailUser(AbstractBaseUser, PermissionsMixin):
     """
     email = models.EmailField(_('email address'), max_length=255,
                               unique=True, db_index=True)
+    password = models.TextField(_('password'), max_length=255, db_index=True)
+    is_superuser = models.BooleanField(
+        _('superuser status'), default=False, help_text=_(
+            'Designates whether the user can manipulate all aspects of the site.'))
     is_staff = models.BooleanField(
         _('staff status'), default=False, help_text=_(
             'Designates whether the user can log into this admin site.'))
@@ -86,6 +90,7 @@ class AbstractEmailUser(AbstractBaseUser, PermissionsMixin):
         'Designates whether this user should be treated as '
         'active. Unselect this instead of deleting accounts.'))
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+    last_login = models.DateTimeField(_('last login'))
 
     objects = EmailUserManager()
 
