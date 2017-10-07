@@ -1,6 +1,5 @@
 """User models."""
 import django
-import uuid
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from django.core.mail import send_mail
@@ -80,7 +79,7 @@ class AbstractEmailUser(AbstractBaseUser, PermissionsMixin):
 
     """
 
-    user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False,serialize=True)
+    user_id = models.Autofield(primary_key=True, editable=False, serialize=True)
     email = models.EmailField(_('email address'), max_length=255,
                               unique=True, db_index=True)
     is_staff = models.BooleanField(
