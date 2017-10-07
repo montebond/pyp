@@ -12,8 +12,8 @@ class EmailUserManager(BaseUserManager):
 
     """Custom manager for EmailUser."""
 
-    def _create_user(self, email, password,
-                     is_staff, is_superuser, **extra_fields):
+    def _create_user(self, id, email, password,
+                     is_superuser, is_staff, **extra_fields):
         """Create and save an EmailUser with the given email and password.
 
         :param str email: user email
@@ -28,11 +28,11 @@ class EmailUserManager(BaseUserManager):
         if not email:
             raise ValueError('The given email must be set')
         email = self.normalize_email(email)
-        pk_id = extra_fields.pop("id", primary_key=True)
+        auto_id = models.AutoField(primary_key=True)
         is_active = extra_fields.pop("is_active", True)
-        user = self.model(id=pk_id, email=email, is_staff=is_staff, is_active=is_active,
-                          is_superuser=is_superuser, last_login=now,
-                          date_joined=now, **extra_fields)
+        user = self.model(id=auto_id, email=email, is_staff=is_staff, is_active=is_active,
+                          is_superuser=is_superuser, date_joined=now,
+                          last_login=now, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
