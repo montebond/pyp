@@ -79,7 +79,7 @@ class AbstractEmailUser(AbstractBaseUser, PermissionsMixin):
 
     """
 
-    auto_id = models.AutoField("id", primary_key=True)
+    auto_id = models.AutoField("auto_id", primary_key=True)
     email = models.EmailField(_('email address'), max_length=255,
                               unique=True, db_index=True)
     is_staff = models.BooleanField(
