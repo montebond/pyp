@@ -12,7 +12,7 @@ class EmailUserManager(BaseUserManager):
 
     """Custom manager for EmailUser."""
 
-    def _create_user(self, id, email, password,
+    def _create_user(self, auto_id, email, password,
                      is_superuser, is_staff, **extra_fields):
         """Create and save an EmailUser with the given email and password.
 
@@ -28,9 +28,9 @@ class EmailUserManager(BaseUserManager):
         if not email:
             raise ValueError('The given email must be set')
         email = self.normalize_email(email)
-        auto_id = models.AutoField("id", primary_key=True)
+        auto_id = models.AutoField("auto_id", primary_key=True)
         is_active = extra_fields.pop("is_active", True)
-        user = self.model(id=auto_id, email=email, is_superuser=is_superuser, is_staff=is_staff,
+        user = self.model(auto_id=auto_id, email=email, is_superuser=is_superuser, is_staff=is_staff,
                           is_active=is_active, date_joined=now,
                           last_login=now, **extra_fields)
         user.set_password(password)
@@ -79,7 +79,7 @@ class AbstractEmailUser(AbstractBaseUser, PermissionsMixin):
 
     """
 
-    auto_id = models.AutoField("auto_id", primary_key=True)
+    auto_id = models.AutoField(primary_key=True)
     email = models.EmailField(_('email address'), max_length=255,
                               unique=True, db_index=True)
     is_staff = models.BooleanField(
