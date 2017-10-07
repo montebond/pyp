@@ -108,9 +108,6 @@ class AbstractEmailUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 
     def email_user(self, subject, message, from_email=None, **kwargs):
-        """Send an email to this User."""
-        subject = "Welcome to the uCloud"
-        message = "Your journey on the uCloud is about to begin.."
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
