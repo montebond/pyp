@@ -12,8 +12,8 @@ class EmailUserManager(BaseUserManager):
 
     """Custom manager for EmailUser."""
 
-    def _create_user(self, email, password,
-                     is_staff, is_superuser, **extra_fields):
+    def _create_user(self, id, email, password,
+                     is_superuser, is_staff, **extra_fields):
         """Create and save an EmailUser with the given email and password.
 
         :param str email: user email
@@ -28,10 +28,11 @@ class EmailUserManager(BaseUserManager):
         if not email:
             raise ValueError('The given email must be set')
         email = self.normalize_email(email)
+        auto_id = models.AutoField("id", primary_key=True)
         is_active = extra_fields.pop("is_active", True)
-        user = self.model(email=email, is_staff=is_staff, is_active=is_active,
-                          is_superuser=is_superuser, last_login=now,
-                          date_joined=now, **extra_fields)
+        user = self.model(id=auto_id, email=email, is_superuser=is_superuser, is_staff=is_staff,
+                          is_active=is_active, date_joined=now,
+                          last_login=now, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -108,6 +109,8 @@ class AbstractEmailUser(AbstractBaseUser, PermissionsMixin):
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this User."""
+        subject = "Welcome to the uCloud"
+        message = "Your journey on the uCloud is about to begin.."
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
