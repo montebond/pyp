@@ -12,7 +12,7 @@ class EmailUserAdmin(UserAdmin):
     """EmailUser Admin model."""
 
     fieldsets = (
-        (None, {'fields': ('auto_id', 'email', 'password')}),
+        (None, {'fields': ('user_id', 'email', 'password')}),
         (_('Permissions'), {'fields': ('is_superuser', 'is_staff', 'is_active',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('date_joined', 'last_login')}),
