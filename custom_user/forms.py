@@ -1,5 +1,7 @@
 import django
+import smtplib
 from django import forms
+from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.utils.translation import ugettext_lazy as _
@@ -124,6 +126,11 @@ class EmailUserCreationForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
+            email = self.cleaned_data["email"]
+            subject = "Welcome to the uCloud"
+            message = "Your journey on the uCloud is about to begin.."
+            from_email = "noreply@ucloud.live"
+            send_mail(subject, message, from_email, [email], fail_silently=False)
         return user
 
 class ResetPasswordForm(forms.ModelForm):
